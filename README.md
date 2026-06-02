@@ -120,4 +120,30 @@
 #### Điểm yếu:
 - Không stable
 - Yếu với test có long preflix + same length
- 
+## Phương án sinh test trong test_gen.cpp
+### Problem A: Integer Sort
+### Test 1: Mảng gần sắp xếp
+#### Điểm có lợi cho thuật toán của người làm đồ án:
+- Khi mảng gần được sắp xếp thì chọn pivot sẽ rất đẹp khiến mảng được chia đều đồng thời mỗi vòng lặp cũng ít cần swap vì thường thì phần tử bé hơn đã đúng trước phần tử lớn
+- Bước cuối chạy InsertionSort sẽ rất nhanh (gần như là O(n))
+### Test 2: Nhiều duplicates
+#### Điểm có lợi cho thuật toán của người làm đồ án:
+- 3-way partition giúp chia mảng thành 3 phần < pivot = pivot và > pivot vì thế trong 1 vòng lặp đã vừa làm được 2 chuyện là vừa QuickSort vừa trả pivot và các duplicates về đúng vị trí
+- Các thuật toán khác không tận dụng được kiểu dữ liệu này sẽ bị bỏ phí hoặc thậm chí chạy chậm hơn thông thường
+### Test 3: n nhỏ nhưng a[i] lại lớn nhỏ xen kẽ
+#### Thuật toán bị nhắm tới để tăng thời gian chạy: RadixSort
+- n nhỏ nhưng RadixSort không được hưởng lợi vì nó vẫn phải xét hết các chữ số dần dần trực tiếp làm chậm thuật toán
+#### Điểm có lợi cho thuật toán của người làm đồ án:
+- n nhỏ giúp thuật toán nhanh chóng chuyển sang bước cuối chạy InsertionSort
+- Test này cũng vô tình tạo nhiều duplicates và nó cũng có lợi cho thuật toán của người làm đồ án
+### Test 4: Mảng gần sắp xếp + nhiều duplicates
+#### Điểm có lợi cho thuật toán của người làm đồ án:
+- Khi mảng gần được sắp xếp thì chọn pivot sẽ rất đẹp khiến mảng được chia đều đồng thời mỗi vòng lặp cũng ít cần swap vì thường thì phần tử bé hơn đã đúng trước phần tử lớn
+- 3-way partition giúp chia mảng thành 3 phần < pivot = pivot và > pivot vì thế trong 1 vòng lặp đã vừa làm được 2 chuyện là vừa QuickSort vừa trả pivot và các duplicates về đúng vị trí
+- Các thuật toán khác không tận dụng được kiểu dữ liệu này sẽ bị bỏ phí hoặc thậm chí chạy chậm hơn thông thường
+- Bước cuối chạy InsertionSort sẽ rất nhanh (gần như là O(n))
+### Test 5: Low entropy in high bits
+#### Thuật toán bị nhắm tới để tăng thời gian chạy: RadixSort
+- Ở các bit cao toàn bộ phần tử rơi vào đúng 1 bucket khiến nhiều pass gần như vô ích nhưng vẫn tốn thời gian copy memory.
+### Problem A: Integer Sort
+### Test 1: Mảng gần sắp xếp
