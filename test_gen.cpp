@@ -210,22 +210,46 @@ void gen_strlexi_test(int id) {
 
 void gen_strlenlexi_test(int id) {
 
-    int n;
-
-    switch (id) {
-    case 1: n = 10000; break;  
-    case 2: n = 10000; break;  
-    case 3: n = 10000; break;  
-    case 4: n = 10000; break; 
-    case 5: n = 10000; break;   
-    default: n = 10;
-    }
+    const int n = 10000;
 
     cout << n << '\n';
 
-
-
     if (id == 1) {
+
+
+        for (int i = 0; i < n; i++) {
+
+            int len = 10 + (i % 91);
+
+            string s(len, 'a');
+
+            s[0] = 'a' + rand_int(0, 25);
+
+            for (int j = 1; j < len; j++)
+                s[j] = 'a' + rand_int(0, 25);
+
+            cout << s << '\n';
+        }
+    }
+
+    else if (id == 2) {
+
+
+
+        vector<string> base;
+
+        for (int i = 0; i < 50; i++) {
+            base.push_back(rand_string(rand_int(10, 100)));
+        }
+
+        for (int i = 0; i < n; i++) {
+            cout << base[rand_int(0, 49)] << '\n';
+        }
+    }
+
+    else if (id == 3) {
+
+
 
         int per_len = n / 91;
         int remain = n % 91;
@@ -233,47 +257,26 @@ void gen_strlenlexi_test(int id) {
         for (int len = 10; len <= 100; len++) {
 
             int cnt = per_len + (remain > 0);
+
             if (remain > 0) remain--;
 
             for (int k = 0; k < cnt; k++) {
 
                 string s(len, 'a');
 
-                int x = k;
-
-                for (int pos = len - 1; pos >= 0 && x > 0; pos--) {
-                    s[pos] = 'a' + (x % 26);
-                    x /= 26;
-                }
+                s[len - 1] = 'a' + (k % 26);
 
                 cout << s << '\n';
             }
         }
-}
-
-
-    else if (id == 2) {
-        string s = rand_string(50);
-        for (int i = 0; i < n; i++) {
-            cout << s << '\n';
-        }
     }
-
-   
-    else if (id == 3) {
-        string prefix(90, 'a');  
-        for (int i = 0; i < n; i++) {
-            int extra = rand_int(1, 10);  
-            string s = prefix + rand_string(extra);
-            cout << s << '\n';
-        }
-    }
-
-    
 
     else if (id == 4) {
 
+
+
         vector<string> v;
+
         v.reserve(n);
 
         int per_len = n / 91;
@@ -282,6 +285,7 @@ void gen_strlenlexi_test(int id) {
         for (int len = 10; len <= 100; len++) {
 
             int cnt = per_len + (remain > 0);
+
             if (remain > 0) remain--;
 
             for (int k = 0; k < cnt; k++) {
@@ -299,23 +303,28 @@ void gen_strlenlexi_test(int id) {
             }
         }
 
-        for (int i = 127; i < (int)v.size(); i += 128) {
-            swap(v[i], v[i - 1]);
+        for (int i = 0; i < n / 100; i++) {
+
+            int a = rand_int(0, n - 1);
+            int b = rand_int(0, n - 1);
+
+            swap(v[a], v[b]);
         }
 
-        for (auto& s : v) {
+        for (auto& s : v)
             cout << s << '\n';
-        }
     }
+
     else if (id == 5) {
-        string prefix(8, 'a');
-        for (int i = 0; i < n / 2; i++) {  
-            cout << prefix + rand_string(2) << '\n';
-        }
+
         for (int i = 0; i < n / 2; i++) {
-            cout << prefix + rand_string(92) << '\n';
+            cout << rand_string(10) << '\n';
         }
-    }
+
+        for (int i = 0; i < n / 2; i++) {
+            cout << rand_string(100) << '\n';
+        }
+}
 }
 
 int main(int argc, char* argv[]) {
