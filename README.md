@@ -117,27 +117,29 @@
 - Có constant factor tốt hơn trong thực tế so với nhiều thuật toán O(n log n) khác
 - Ít tốn hoặc gần như không tốn bộ nhớ thêm
 - Tốt với test có các xâu khác độ dài nhau (vì so sánh bằng cmp rất rẻ chỉ O(1))
+- Tốt với dữ liệu gần sắp xếp vì có sử dụng InsertionSort
+- Tốt với duplicate do sử dụng 3-way partition
 #### Điểm yếu:
 - Không stable
 - Yếu với test có long preflix + same length
 ## Phương án sinh test trong test_gen.cpp
 ### Problem A: Integer Sort
 ### Test 1: Mảng gần sắp xếp
-#### Điểm có lợi cho thuật toán của người làm đồ án:
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
 - Khi mảng gần được sắp xếp thì chọn pivot sẽ rất đẹp khiến mảng được chia đều đồng thời mỗi vòng lặp cũng ít cần swap vì thường thì phần tử bé hơn đã đúng trước phần tử lớn
 - Bước cuối chạy InsertionSort sẽ rất nhanh (gần như là O(n))
 ### Test 2: Nhiều duplicates
-#### Điểm có lợi cho thuật toán của người làm đồ án:
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
 - 3-way partition giúp chia mảng thành 3 phần < pivot = pivot và > pivot vì thế trong 1 vòng lặp đã vừa làm được 2 chuyện là vừa QuickSort vừa trả pivot và các duplicates về đúng vị trí
 - Các thuật toán khác không tận dụng được kiểu dữ liệu này sẽ bị bỏ phí hoặc thậm chí chạy chậm hơn thông thường
 ### Test 3: n nhỏ nhưng a[i] lại lớn nhỏ xen kẽ
 #### Thuật toán bị nhắm tới để tăng thời gian chạy: RadixSort
 - n nhỏ nhưng RadixSort không được hưởng lợi vì nó vẫn phải xét hết các chữ số dần dần trực tiếp làm chậm thuật toán
-#### Điểm có lợi cho thuật toán của người làm đồ án:
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
 - n nhỏ giúp thuật toán nhanh chóng chuyển sang bước cuối chạy InsertionSort
-- Test này cũng vô tình tạo nhiều duplicates và nó cũng có lợi cho thuật toán của người làm đồ án
+- Test này cũng vô tình tạo nhiều duplicates và nó cũng có lợi cho thuật toán của người thực hiện đồ án
 ### Test 4: Mảng gần sắp xếp + nhiều duplicates
-#### Điểm có lợi cho thuật toán của người làm đồ án:
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
 - Khi mảng gần được sắp xếp thì chọn pivot sẽ rất đẹp khiến mảng được chia đều đồng thời mỗi vòng lặp cũng ít cần swap vì thường thì phần tử bé hơn đã đúng trước phần tử lớn
 - 3-way partition giúp chia mảng thành 3 phần < pivot = pivot và > pivot vì thế trong 1 vòng lặp đã vừa làm được 2 chuyện là vừa QuickSort vừa trả pivot và các duplicates về đúng vị trí
 - Các thuật toán khác không tận dụng được kiểu dữ liệu này sẽ bị bỏ phí hoặc thậm chí chạy chậm hơn thông thường
@@ -145,5 +147,25 @@
 ### Test 5: Low entropy in high bits
 #### Thuật toán bị nhắm tới để tăng thời gian chạy: RadixSort
 - Ở các bit cao toàn bộ phần tử rơi vào đúng 1 bucket khiến nhiều pass gần như vô ích nhưng vẫn tốn thời gian copy memory.
-### Problem A: Integer Sort
-### Test 1: Mảng gần sắp xếp
+### Problem B: Lexicographic Sort
+Ở phần này tuy có 5 test khác nhau nhưng người thực hiện đồ án đều xây dựng chung 1 công thức là n = MAXN, nhiều xâu có chung long suffix và xâu rất dài. Mục đích là để tận dụng lợi thế của MKQ khi entropy xuất hiện muộn khiến phần lớn các thuật toán so sánh trực tiếp 2 xâu chạy rất chậm, riêng MSD RadixSort tuy tốc độ cũng ngang ngửa nhưng lại tốn bộ nhớ hơn MKQ. Bản thân MKQ tuy không được lợi với các test như thế này nhưng cũng không gặp bất lợi
+### Problem C: Length-aware Lexicographic String Sort
+### Test 1: Độ dài phân bố đều, entropy xuất hiện sớm
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
+- Độ dài phân bố đều giúp dễ tìm được pivot đẹp từ đó 3-way partition sẽ dễ xếp nó vào các nhóm có độ dài giống nhau + entropy xuất hiện sớm giúp so sánh 2 xâu tốn chi phí thấp
+### Test 2: Nhiều duplicates
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
+- 3-way partition giúp chia mảng thành 3 phần < pivot = pivot và > pivot vì thế trong 1 vòng lặp đã vừa làm được 2 chuyện là vừa QuickSort vừa trả pivot và các duplicates về đúng vị trí
+### Test 3: Suffix dài nhưng khác length
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
+- Vì các xâu đa phần là khác độ dài nhau nên so sánh dùng cmp sẽ rất nhanh chỉ O(1)
+### Test 4: Mảng gần sắp xếp
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
+- Khi mảng gần được sắp xếp thì chọn pivot sẽ rất đẹp khiến mảng được chia đều đồng thời mỗi vòng lặp cũng ít cần swap vì thường thì phần tử bé hơn đã đúng trước phần tử lớn
+- Bước cuối chạy InsertionSort sẽ rất nhanh (gần như là O(n))
+### Test 5: Xâu ngẫu nhiên
+#### Điểm có lợi cho thuật toán của người thực hiện đồ án:
+- Kí tự ngẫu nhiên làm xác xuất xuất hiện entropy muộn là không cao
+- Giúp so sánh xâu trở nên rẻ hơn
+### Nhận xét:
+Ở Problem C, thuật toán của người thực hiện đồ án không quá nổi trội so với các thuật toán khác. Có một số thuật toán nếu xây test case bất lợi cho nó thì còn tạo bất lợi cho bản thân nhiều hơn chính vì thế thay vì cố nhắm tới xây dựng test case để làm thuật toán khác chạy chậm thì người thực hiện đồ án quyết định xây dựng test case giúp thuật toán của người thực hiện đồ án chạy nhanh.
